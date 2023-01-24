@@ -18,7 +18,7 @@ Resources:
     DeletionPolicy: Delete
     UpdateReplacePolicy: Delete
     Properties:
-      TemplateURL: https://s3.eu-west-1.amazonaws.com/root-fl-storage/cloudformation/ae977a9afa3c9022ba35cf771bdcc532.template
+      TemplateURL: https://s3.eu-west-1.amazonaws.com/root-fl-storage/cloudformation/8479f293c5fa81786f1fa10bbfb6a411.template
       Parameters:
         RdsAddress:
           Fn::GetAtt:
