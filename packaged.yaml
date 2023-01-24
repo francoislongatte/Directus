@@ -1,0 +1,42 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Main stack
+Resources:
+  database:
+    Type: AWS::CloudFormation::Stack
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      TemplateURL: https://s3.eu-west-1.amazonaws.com/root-fl-storage/cloudformation/c5a6847895b656dbc4f2ac2a4aacfb66.template
+  storage:
+    Type: AWS::CloudFormation::Stack
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      TemplateURL: https://s3.eu-west-1.amazonaws.com/root-fl-storage/cloudformation/01029586ebd991262e257ce7dd5e539b.template
+  App:
+    Type: AWS::CloudFormation::Stack
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Delete
+    Properties:
+      TemplateURL: https://s3.eu-west-1.amazonaws.com/root-fl-storage/cloudformation/c0f9d388489ad18c8c5f8055cc1f2bf1.template
+      Parameters:
+        RdsAddress:
+          Fn::GetAtt:
+          - database
+          - Outputs.Endpoint
+        RdsPort:
+          Fn::GetAtt:
+          - database
+          - Outputs.Endpoint
+        BucketName:
+          Fn::GetAtt:
+          - storage
+          - Outputs.BucketName
+        AccessKeyID:
+          Fn::GetAtt:
+          - storage
+          - Outputs.AccessKeyID
+        SecretAccessKey:
+          Fn::GetAtt:
+          - storage
+          - Outputs.SecretAccessKey
