@@ -5,8 +5,6 @@ services:
     image: directus/directus:latest
     ports:
       - "8080:8055"
-    env_file:
-      - .env
     environment:
       # ENV
       DIRECTUS_APP_ENV: "production"
