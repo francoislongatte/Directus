@@ -1,1 +1,0 @@
-STORAGE_S3_REGION=eu-west-1

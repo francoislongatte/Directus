@@ -1,12 +1,43 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: Main stack
+Parameters:
+  DirectusKey:
+    Type: String
+    NoEcho: true
+  DirectusSecret:
+    Type: String
+    NoEcho: true
+  DirectusUsername:
+    Type: String
+    NoEcho: true
+  DirectusDatabaseName:
+    Type: String
+    NoEcho: true
+  DirectusPassword:
+    Type: String
+    NoEcho: true
+  DirectusClient:
+    Type: String
+  AdminEmail:
+    Type: String
+  AdminPassword:
+    Type: String
 Resources:
   database:
     Type: AWS::CloudFormation::Stack
     DeletionPolicy: Retain
     UpdateReplacePolicy: Retain
     Properties:
-      TemplateURL: https://s3.eu-west-1.amazonaws.com/root-fl-storage/cloudformation/c5a6847895b656dbc4f2ac2a4aacfb66.template
+      TemplateURL: https://s3.eu-west-1.amazonaws.com/root-fl-storage/cloudformation/235d285929f17c9e931358d4174e04e4.template
+      Parameters:
+        DirectusUsername:
+          Ref: DirectusUsername
+        DirectusPassword:
+          Ref: DirectusPassword
+        DirectusDatabaseName:
+          Ref: DirectusDatabaseName
+        DirectusClient:
+          Ref: DirectusClient
   storage:
     Type: AWS::CloudFormation::Stack
     DeletionPolicy: Retain
@@ -18,8 +49,24 @@ Resources:
     DeletionPolicy: Delete
     UpdateReplacePolicy: Delete
     Properties:
-      TemplateURL: https://s3.eu-west-1.amazonaws.com/root-fl-storage/cloudformation/d9bdff8b20058f2200f9add56b0f3be0.template
+      TemplateURL: https://s3.eu-west-1.amazonaws.com/root-fl-storage/cloudformation/81f53789513d37a6ee6d3397146b9268.template
       Parameters:
+        DirectusKey:
+          Ref: DirectusKey
+        DirectusSecret:
+          Ref: DirectusSecret
+        DirectusUsername:
+          Ref: DirectusUsername
+        DirectusPassword:
+          Ref: DirectusPassword
+        DirectusDatabaseName:
+          Ref: DirectusDatabaseName
+        DirectusClient:
+          Ref: DirectusClient
+        AdminEmail:
+          Ref: AdminEmail
+        AdminPassword:
+          Ref: AdminPassword
         RdsAddress:
           Fn::GetAtt:
           - database
@@ -27,7 +74,7 @@ Resources:
         RdsPort:
           Fn::GetAtt:
           - database
-          - Outputs.Endpoint
+          - Outputs.Port
         BucketName:
           Fn::GetAtt:
           - storage
